@@ -1,20 +1,36 @@
-name: Build Docs
-description: Build docs pages inside /docs directory
+name: Deploy docs to GitHub Pages
 
-runs:
-    using: 'composite'
+on:
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: docs
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
-        - name: Install dependencies
-          run: pnpm install
-          shell: bash
-          working-directory: docs
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Build with Next.js
-          run: pnpm next build
-          shell: bash
-          working-directory: docs
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-        - name: Export static HTML with Next.js
-          run: pnpm next export
-          shell: bash
-          working-directory: docs
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        with:
+          path: "."
