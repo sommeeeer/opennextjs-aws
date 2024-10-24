@@ -1,5 +1,17 @@
 # open-next
 
+## 3.2.0
+
+### Minor Changes
+
+- [#574](https://github.com/opennextjs/opennextjs-aws/pull/574) [`216e05c545d0bba680306ad1bad6057345232b88`](https://github.com/opennextjs/opennextjs-aws/commit/216e05c545d0bba680306ad1bad6057345232b88) Thanks [@conico974](https://github.com/conico974)! - Add a new option to install native dependencies on every lambda
+
+- [#579](https://github.com/opennextjs/opennextjs-aws/pull/579) [`5f661b53675f3dc9bef8c05072be949c476328f3`](https://github.com/opennextjs/opennextjs-aws/commit/5f661b53675f3dc9bef8c05072be949c476328f3) Thanks [@conico974](https://github.com/conico974)! - Refactor overrides
+
+### Patch Changes
+
+- [#567](https://github.com/opennextjs/opennextjs-aws/pull/567) [`d6d4b8f83da47b7ec3b0e7b565c38567a3ff0742`](https://github.com/opennextjs/opennextjs-aws/commit/d6d4b8f83da47b7ec3b0e7b565c38567a3ff0742) Thanks [@sommeeeer](https://github.com/sommeeeer)! - Hides the x-opennext header from server requests when poweredByHeader is false in next config
+
 ## 3.1.6
 
 ### Patch Changes
