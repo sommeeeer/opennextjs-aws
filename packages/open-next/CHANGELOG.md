@@ -1,5 +1,18 @@
 # open-next
 
+## 3.4.0
+
+### Minor Changes
+
+- [#689](https://github.com/opennextjs/opennextjs-aws/pull/689) [`e8f6dc8c7a421e316f5fbed03dcb82bb860c5249`](https://github.com/opennextjs/opennextjs-aws/commit/e8f6dc8c7a421e316f5fbed03dcb82bb860c5249) Thanks [@conico974](https://github.com/conico974)! - Added some override for debugging OpenNext locally
+
+### Patch Changes
+
+- [#688](https://github.com/opennextjs/opennextjs-aws/pull/688) [`86916bfd9246a63f321352bb11346eeb0ca3f6da`](https://github.com/opennextjs/opennextjs-aws/commit/86916bfd9246a63f321352bb11346eeb0ca3f6da) Thanks [@vicb](https://github.com/vicb)! - fix city name header encoding
+
+  - encode the header in cloudflare wrapper
+  - decode the header in the routing layer
+
 ## 3.3.1
 
 ### Patch Changes
