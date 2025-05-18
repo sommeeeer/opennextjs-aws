@@ -9,6 +9,8 @@ const wrapper: WrapperHandler = async (handler, converter) => {
   const app = express();
   // To serve static assets
   app.use(express.static(path.join(getMonorepoRelativePath(), "assets")));
+  // We should disable this setting so Next's header will come through if enabled
+  app.disable("x-powered-by");
 
   const imageHandlerPath = path.join(
     getMonorepoRelativePath(),
