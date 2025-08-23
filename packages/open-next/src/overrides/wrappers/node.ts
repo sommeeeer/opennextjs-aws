@@ -7,9 +7,14 @@ import { debug, error } from "../../adapters/logger";
 
 const wrapper: WrapperHandler = async (handler, converter) => {
   const server = createServer(async (req, res) => {
-    const internalEvent = await converter.convertFrom(req);
-
     const abortController = new AbortController();
+    res.on("close", () => {
+      abortController.abort();
+    });
+    const requestWithSignal = Object.assign(req, {
+      signal: abortController.signal,
+    });
+    const internalEvent = await converter.convertFrom(requestWithSignal);
 
     const streamCreator: StreamCreator = {
       writeHeaders: (prelude) => {
@@ -18,12 +23,7 @@ const wrapper: WrapperHandler = async (handler, converter) => {
         res.flushHeaders();
         return res;
       },
-      abortSignal: abortController.signal,
     };
-
-    res.on("close", () => {
-      abortController.abort();
-    });
 
     if (internalEvent.rawPath === "/__health") {
       res.writeHead(200, {

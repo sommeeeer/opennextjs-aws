@@ -97,6 +97,7 @@ export async function handleMiddleware(
     },
     url,
     body: convertBodyToReadableStream(internalEvent.method, internalEvent.body),
+    signal: internalEvent.signal,
   } as unknown as Request);
   const statusCode = result.status;
 
@@ -199,5 +200,6 @@ export async function handleMiddleware(
     remoteAddress: internalEvent.remoteAddress,
     isExternalRewrite,
     rewriteStatusCode: statusCode,
+    signal: internalEvent.signal,
   } satisfies MiddlewareEvent;
 }

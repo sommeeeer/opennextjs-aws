@@ -414,6 +414,7 @@ export function createServerResponse(
     },
     responseStream,
     headers,
+    internalEvent.signal,
     routingResult.rewriteStatusCode,
   );
 }

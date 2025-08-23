@@ -49,6 +49,7 @@ const converter: Converter<InternalEvent, InternalResult | MiddlewareResult> = {
       remoteAddress: event.headers.get("x-forwarded-for") ?? "::1",
       query,
       cookies,
+      signal: event.signal,
     };
   },
   convertTo: async (result) => {

@@ -6,7 +6,9 @@ import type { Converter } from "types/overrides";
 import { extractHostFromHeaders, getQueryFromSearchParams } from "./utils.js";
 
 const converter: Converter = {
-  convertFrom: async (req: IncomingMessage & { protocol?: string }) => {
+  convertFrom: async (
+    req: IncomingMessage & { signal: AbortSignal; protocol?: string },
+  ) => {
     const body = await new Promise<Buffer>((resolve) => {
       const chunks: Uint8Array[] = [];
       req.on("data", (chunk) => {
@@ -49,6 +51,7 @@ const converter: Converter = {
         "::1",
       query,
       cookies,
+      signal: req.signal,
     };
   },
   // Nothing to do here, it's streaming

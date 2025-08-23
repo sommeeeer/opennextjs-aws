@@ -40,9 +40,16 @@ const wrapper: WrapperHandler = async (handler, converter) => {
       // This is to make `next-auth` and other libraries that rely on this header to work locally out of the box.
       req.headers["x-forwarded-proto"] = req.protocol;
     }
-    const internalEvent = await converter.convertFrom(req);
 
+    // This is to support `request.signal.onabort` in route handlers
     const abortController = new AbortController();
+    res.on("close", () => {
+      abortController.abort();
+    });
+    const requestWithSignal = Object.assign(req, {
+      signal: abortController.signal,
+    });
+    const internalEvent = await converter.convertFrom(requestWithSignal);
 
     const streamCreator: StreamCreator = {
       writeHeaders: (prelude) => {
@@ -52,12 +59,7 @@ const wrapper: WrapperHandler = async (handler, converter) => {
         return res;
       },
       onFinish: () => {},
-      abortSignal: abortController.signal,
     };
-
-    res.on("close", () => {
-      abortController.abort();
-    });
 
     await handler(internalEvent, { streamCreator });
   });

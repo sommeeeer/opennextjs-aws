@@ -30,6 +30,7 @@ export type InternalEvent = {
   readonly query: Record<string, string | string[]>;
   readonly cookies: Record<string, string>;
   readonly remoteAddress: string;
+  signal?: AbortSignal;
 } & BaseEventOrResult<"core">;
 
 export type InternalResult = {
@@ -49,7 +50,6 @@ export interface StreamCreator {
   // Just to fix an issue with aws lambda streaming with empty body
   onWrite?: () => void;
   onFinish?: (length: number) => void;
-  abortSignal?: AbortSignal;
 }
 
 export type WaitUntil = (promise: Promise<void>) => void;
