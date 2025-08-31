@@ -1,14 +1,15 @@
-name: Install & setup pnpm
+name: Install & setup
 description: Install's node, pnpm, restores cache
 
 runs:
   using: 'composite'
   steps:
-    # Install nodejs. https://github.com/actions/setup-node
-    - name: Setup Node.js
+    - name: Install Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: 18.x
+        node-version: 20.19.4
+        cache: "pnpm"
+        registry-url: "https://registry.npmjs.org"
 
     # Install pnpm. https://github.com/pnpm/action-setup
     - uses: pnpm/action-setup@v4
