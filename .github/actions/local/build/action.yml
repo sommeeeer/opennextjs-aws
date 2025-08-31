@@ -3,10 +3,6 @@ description: Installs dependencies and builds OpenNext
 runs:
   using: 'composite'
   steps:
-    - name: Install dependencies
-      run: pnpm install
-      shell: bash
-
     # Build only the @opennextjs/aws package + its monorepo dependencies
     - name: Build
       shell: bash
