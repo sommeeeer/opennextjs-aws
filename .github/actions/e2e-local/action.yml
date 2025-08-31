@@ -1,0 +1,54 @@
+name: E2E Local
+description: Runs E2E tests locally with development overrides
+runs:
+  using: 'composite'
+  steps:
+    # Setup Playwright
+    - name: Get Playwright version
+      id: playwright-version
+      shell: bash
+      run: echo "version=$(npm ls @playwright/test | grep @playwright | sed 's/.*@//' | sed 's/ .*//' )"
+
+    - name: Cache Playwright
+      uses: actions/cache@v4
+      id: playwright-cache
+      with:
+        path: "~/.cache/ms-playwright"
+        key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+        restore-keys: |
+          ${{ runner.os }}-playwright-
+
+    - name: Install Playwright
+      shell: bash
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      run: pnpm exec playwright install chromium --with-deps
+
+    - name: Build examples apps with local configuration
+      shell: bash
+      run: pnpm -r openbuild:local 
+
+    - name: Start the local OpenNext servers
+      shell: bash
+      run: |
+        pnpm -r openbuild:local:start &
+    - name: Run E2E Test locally
+      shell: bash
+      run: |
+        pnpm e2e:test
+        for port in 3001 3002 3003 3004; do
+          echo "Checking port $port..."
+          for attempt in {1..20}; do 
+            sleep 1
+            if curl --silent --fail http://localhost:$port > /dev/null; then
+              echo "Port $port is ready"
+              break
+            fi
+            if [ $attempt -eq 20 ]; then
+              echo "Port $port failed to start"
+              exit 1
+            fi
+            echo "Waiting for port $port, attempt $attempt..."
+          done
+        done
+
+      ## Do we want to report to Discord?

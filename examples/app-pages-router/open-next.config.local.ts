@@ -8,7 +8,7 @@ const devOverride = {
   converter: "node",
   incrementalCache: "fs-dev",
   queue: "direct",
-  tagCache: "fs-dev-nextMode",
+  tagCache: "fs-dev",
 } satisfies OverrideOptions;
 
 export default {
